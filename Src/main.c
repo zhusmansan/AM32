@@ -441,10 +441,10 @@ uint16_t adjusted_input = 0;
 #define TEMP30_CAL_VALUE ((uint16_t*)((uint32_t)0x1FFFF7B8))
 #define TEMP110_CAL_VALUE ((uint16_t*)((uint32_t)0x1FFFF7C2))
 
-uint16_t smoothedcurrent = 0;
+int32_t smoothedcurrent = 0;
 const uint8_t numReadings = 100; // the readings from the analog input
 uint8_t readIndex = 0; // the index of the current reading
-uint32_t total = 0;
+int32_t total = 0;
 uint16_t readings[100];
 
 uint8_t bemf_timeout_happened = 0;
@@ -739,7 +739,7 @@ void saveEEpromSettings()
     save_flash_nolib(eepromBuffer.buffer, sizeof(eepromBuffer.buffer), eeprom_address);
 }
 
-uint16_t getSmoothedCurrent()
+int32_t getSmoothedCurrent()
 {
     total = total - readings[readIndex];
     readings[readIndex] = ADC_raw_current;
@@ -1842,7 +1842,7 @@ if(zero_crosses < 5){
                 dshot_extended_telemetry = 2;
                 break;
             case 2:
-                send_extended_dshot = 0b0110 << 8 | (uint8_t)actual_current / 50;
+                send_extended_dshot = 0b0110 << 8 | (uint8_t)(actual_current / 50) ;
                 dshot_extended_telemetry = 3;
                 break;
             case 3:
