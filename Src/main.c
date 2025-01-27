@@ -1833,7 +1833,7 @@ if(zero_crosses < 5){
         }
 #endif
 
-        if (tenkhzcounter > LOOP_FREQUENCY_HZ) { // 1s sample interval 10000
+        if (tenkhzcounter > LOOP_FREQUENCY_HZ/5) { // 200ms sample interval 10000
             consumed_current = (float)actual_current / 360 + consumed_current;
             switch (dshot_extended_telemetry) {
 
@@ -1842,7 +1842,7 @@ if(zero_crosses < 5){
                 dshot_extended_telemetry = 2;
                 break;
             case 2:
-                send_extended_dshot = 0b0110 << 8 | (uint8_t)(actual_current / 50) ;
+                send_extended_dshot = 0b0110 << 8 | (uint8_t)(actual_current / 20) ; //200mA steps
                 dshot_extended_telemetry = 3;
                 break;
             case 3:
